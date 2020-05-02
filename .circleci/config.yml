@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run:
           name: Create keystore
-          command: echo $KEY_STORE | base64 --decode > keystore.jks
+          command: echo $KEY_STORE | base64 --decode > /home/cirrus/project/android/keystore.jks
 
       - run:
           name: Run Flutter doctor
