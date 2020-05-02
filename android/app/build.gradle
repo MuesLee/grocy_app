@@ -6,6 +6,32 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+
+def keyStoreFile = rootProject.file('grocy_app.jks')
+def keyAliasProp;
+def keyPwProp;
+def keyStorePwProp;
+
+def localKeyStorePropertiesFile = rootProject.file('localKeystore.properties')
+if (localKeyStorePropertiesFile.exists()) {
+    def localKeyStoreProperties = new Properties()
+    localKeyStorePropertiesFile.withReader('UTF-8') { reader ->
+        localKeyStoreProperties.load(reader)
+    }
+    keyAliasProp = localKeyStoreProperties.getProperty('keyAlias')
+    keyPwProp = localKeyStoreProperties.getProperty('keyPw')
+    keyStorePwProp = localKeyStoreProperties.getProperty('keyStorePw')
+}
+else {
+    keyAliasProp = System.getenv('KEY_ALIAS')
+    keyPwProp = System.getenv('KEY_PASSWORD')
+    keyStorePwProp = System.getenv('STORE_PASSWORD')
+}
+
+if (!keyStoreFile.exists()) {
+    keyStoreFile = file(rootDir.getCanonicalPath() + '/' + 'keystore.jks')
+}
+
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
@@ -45,11 +71,17 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            keyAlias keyAliasProp
+            keyPassword keyPwProp
+            storeFile keyStoreFile
+            storePassword keyStorePwProp
+        }
+    }
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 }
