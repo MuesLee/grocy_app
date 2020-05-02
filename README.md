@@ -1,6 +1,9 @@
-# grocy_app
+# grocy-flutter-app
+[![CircleCI](https://circleci.com/gh/Muesombrus/grocy_app.svg?style=shield)](https://app.circleci.com/gh/Muesombrus/grocy_app)
 
-A new Flutter project.
+Grocy App
+
+Mobile App for Grocy(https://grocy.info)
 
 ## Getting Started
 
