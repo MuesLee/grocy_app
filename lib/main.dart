@@ -18,7 +18,7 @@ class GrocyApp extends StatelessWidget {
       debugShowMaterialGrid: false,
       initialRoute: '/',
       theme:
-      ThemeData(primarySwatch: Colors.deepPurple, fontFamily: 'Montserrat'),
+          ThemeData(primarySwatch: Colors.deepPurple, fontFamily: 'Montserrat'),
       routes: routes,
     );
   }
