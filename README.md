@@ -1,5 +1,5 @@
 # grocy-flutter-app
-[![CircleCI](https://circleci.com/gh/Muesombrus/grocy_app.svg?style=shield)](https://app.circleci.com/gh/Muesombrus/grocy_app)
+[![CircleCI](https://circleci.com/gh/Muesombrus/grocy_app.svg?style=shield)](https://app.circleci.com/pipelines/github/Muesombrus/grocy_app)
 
 Grocy App
 
