@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:preferences/preference_service.dart';
 
-import 'screens/configuration.dart';
+import 'screens/configuration/configuration.dart';
 import 'screens/home.dart';
 
-void main() => runApp(GrocyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await PrefService.init(prefix: 'pref_');
+
+  runApp(GrocyApp());
+}
 
 class GrocyApp extends StatelessWidget {
   final routes = <String, WidgetBuilder>{
-    '/': (context) => Configuration(),
+    'configuration': (context) => Configuration(),
     'home': (context) => Home(),
   };
 
@@ -16,7 +23,7 @@ class GrocyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Grocy Mobile',
       debugShowMaterialGrid: false,
-      initialRoute: '/',
+      initialRoute: 'configuration',
       theme:
           ThemeData(primarySwatch: Colors.deepPurple, fontFamily: 'Montserrat'),
       routes: routes,
