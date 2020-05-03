@@ -127,15 +127,23 @@ class _ConfigurationState extends State<Configuration> {
                     PrefService.getString('grocy_api_key'),
                     'GROCY-API-KEY',
                     _grocyTestBtnController)),
-            ListTile(
-                title: Text(_grocySystemInfo?.grocyVersion?.version ?? ''),
-                subtitle: Text('Grocy Version')),
-            ListTile(
-                title: Text(_grocySystemInfo?.phpVersion ?? ''),
-                subtitle: Text('PHP Version')),
-            ListTile(
-                title: Text(_grocySystemInfo?.sqLiteVersion ?? ''),
-                subtitle: Text('PHP Version')),
+            if (_grocySystemInfo != null) Card(
+              margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
+              elevation: 5,
+              child: ListBody(
+                children: <Widget>[
+                  ListTile(
+                    title: Text('${_grocySystemInfo.grocyVersion?.version}, released ${_grocySystemInfo.grocyVersion?.releaseDate}'),
+                    subtitle: Text('Grocy Version')),
+                  ListTile(
+                    title: Text(_grocySystemInfo.phpVersion),
+                    subtitle: Text('PHP Version')),
+                  ListTile(
+                    title: Text(_grocySystemInfo.sqLiteVersion),
+                    subtitle: Text('PHP Version')),
+                ],
+              ),
+            ),
             Divider(
               color: Colors.deepPurple,
             ),
@@ -165,9 +173,13 @@ class _ConfigurationState extends State<Configuration> {
                   'BBUDDY-API-KEY',
                   _bbuddyBtnController),
             ),
-            ListTile(
-              title: Text(_bbuddySystemInfo?.data?.version ?? ''),
-              subtitle: Text('Barcode Buddy Version'),
+            if (_bbuddySystemInfo?.data?.version != null) Card(
+              margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
+              elevation: 5,
+              child: ListTile(
+                title: Text(_bbuddySystemInfo?.data?.version),
+                subtitle: Text('Barcode Buddy Version'),
+              ),
             )
           ]);
         }));
