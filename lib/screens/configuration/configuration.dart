@@ -76,7 +76,7 @@ class _ConfigurationState extends State<Configuration> {
 
   void _pushHomeRoute(context) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Home()));
+        context, MaterialPageRoute(builder: (_) => Home()));
   }
 
   @override
