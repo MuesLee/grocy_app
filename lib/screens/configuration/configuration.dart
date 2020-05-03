@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:grocy_app/screens/configuration/json/bbuddy/bbuddy_system_info.dart';
 import 'package:grocy_app/screens/configuration/json/grocy/grocy_system_info.dart';
+import 'package:grocy_app/screens/home.dart';
 import 'package:preferences/preference_page.dart';
 import 'package:preferences/preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -73,12 +74,25 @@ class _ConfigurationState extends State<Configuration> {
     }
   }
 
+  void _pushHomeRoute(context) {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Home()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: Key('configuration'),
         appBar: AppBar(
           title: Center(child: Text("Configuration")),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.close),
+              onPressed: (_grocySystemInfo != null && _bbuddySystemInfo != null)
+                  ? () => _pushHomeRoute(context)
+                  : null,
+            )
+          ],
         ),
         body: Builder(builder: (BuildContext context) {
           return PreferencePage([
