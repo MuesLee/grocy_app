@@ -17,3 +17,19 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Code Generation
+
+To regenerate generated code run:
+
+```bash
+$ flutter pub run build_runner build
+```
+
+You can also run a watcher:
+
+```
+$ flutter pub run build_runner watch
+```
+
+[build_runner on pub.dev](https://dart.dev/tools/build_runner)
