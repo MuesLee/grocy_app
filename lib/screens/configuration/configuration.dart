@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:grocy_app/screens/configuration/json/bbuddy/bbuddy_system_info.dart';
+import 'package:grocy_app/screens/configuration/json/grocy/grocy_system_info.dart';
 import 'package:preferences/preference_page.dart';
 import 'package:preferences/preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -16,6 +20,8 @@ class _ConfigurationState extends State<Configuration> {
       new RoundedLoadingButtonController();
   final RoundedLoadingButtonController _bbuddyBtnController =
       new RoundedLoadingButtonController();
+  GrocySystemInfo _grocySystemInfo;
+  BbuddySystemInfo _bbuddySystemInfo;
 
   _persistSetting(String key, String value) {
     PrefService.setString(key, value);
@@ -37,14 +43,33 @@ class _ConfigurationState extends State<Configuration> {
         Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(
                 'Success! HTTP Status ${response.statusCode.toString()}.')));
+
+        _setSystemInfo(authHeader, response.body);
       } else {
         buttonController.error();
         Scaffold.of(context).showSnackBar(SnackBar(
             content: Text('HTTP Error ${response.statusCode.toString()}.')));
         Timer(Duration(seconds: 3), () => buttonController.reset());
       }
-    } catch (error) {
+    } on HttpException catch (error) {
       throw error;
+    }
+  }
+
+  _setSystemInfo(String authHeader, String data) {
+    // Zu müde um mir was besseres auszudenken die Responses zu unterscheiden
+    switch (authHeader) {
+      // Und die ganzen Strings müssen auch irgendwo hin... (TODO)
+      case 'GROCY-API-KEY':
+        setState(() {
+          _grocySystemInfo = GrocySystemInfo.fromJson(jsonDecode(data));
+        });
+        break;
+      case 'BBUDDY-API-KEY':
+        setState(() {
+          _bbuddySystemInfo = BbuddySystemInfo.fromJson(jsonDecode(data));
+        });
+        break;
     }
   }
 
@@ -88,6 +113,15 @@ class _ConfigurationState extends State<Configuration> {
                     PrefService.getString('grocy_api_key'),
                     'GROCY-API-KEY',
                     _grocyTestBtnController)),
+            ListTile(
+                title: Text(_grocySystemInfo?.grocyVersion?.version ?? ''),
+                subtitle: Text('Grocy Version')),
+            ListTile(
+                title: Text(_grocySystemInfo?.phpVersion ?? ''),
+                subtitle: Text('PHP Version')),
+            ListTile(
+                title: Text(_grocySystemInfo?.sqLiteVersion ?? ''),
+                subtitle: Text('PHP Version')),
             Divider(
               color: Colors.deepPurple,
             ),
@@ -116,6 +150,10 @@ class _ConfigurationState extends State<Configuration> {
                   PrefService.getString('bbuddy_api_key'),
                   'BBUDDY-API-KEY',
                   _bbuddyBtnController),
+            ),
+            ListTile(
+              title: Text(_bbuddySystemInfo?.data?.version ?? ''),
+              subtitle: Text('Barcode Buddy Version'),
             )
           ]);
         }));
